@@ -28,9 +28,9 @@ const Header = () => {
           </div>
         </div>
         <div>
-          <button className=" px-3 py-1 rounded-full text-white bg-black hover:bg-slate-600 ">
+          <Link to={'/login'} className=" px-3 py-1 rounded-full text-white bg-black hover:bg-slate-600 ">
             Login
-          </button>
+          </Link>
         </div>
       </div>
     </header>
