@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { GrSearch } from "react-icons/gr";
 import { IoCart } from "react-icons/io5";
@@ -10,7 +10,7 @@ import axios from "axios"; // Add this import
 const Header = () => {
   const { currentUser } = useSelector((state) => state.user);
   const dispatch = useDispatch();
-
+  const [menuOpen, SetMenuOpen] = useState(false);
   const handleLogout = async () => {
     try {
       const res = await axios.post(
@@ -46,11 +46,32 @@ const Header = () => {
           </div>
         </div>
         <div className="items-center flex gap-10">
-          <div className="text-4xl cursor-pointer gap-3">
-          
-            {
-              currentUser ? <img src={currentUser.profilePic} alt ="profilepic" className=" w-10 h-10 rounded-full overflow-hidden items-center"/> :( <FaRegCircleUser /> )
-            }
+          <div className="text-4xl cursor-pointer gap-3 relative">
+            {currentUser ? (
+              <img
+                src={currentUser.profilePic}
+                alt="profilepic"
+                className=" w-10 h-10 rounded-full overflow-hidden items-center"
+                onClick={() => SetMenuOpen(!menuOpen)}
+              />
+            ) : (
+              <FaRegCircleUser />
+            )}
+            {menuOpen && (
+              <div className="absolute bg-white bottom-0 top-11 h-fit p-2 shadow-lg rounded">
+                <nav>
+                  {currentUser.isAdmin && (
+                    <Link
+                      to={"/admin/all-products"}
+                      className="whitespace-nowrap hidden md:block hover:bg-slate-100 p-2 text-2xl"
+                      onClick={() => SetMenuOpen(!menuOpen)}
+                    >
+                      Admin Panel
+                    </Link>
+                  )}
+                </nav>
+              </div>
+            )}
           </div>
           <div className="text-4xl cursor-pointer relative">
             <IoCart />
