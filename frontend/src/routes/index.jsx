@@ -6,6 +6,8 @@ import SignUp from "../Pages/SignUp.jsx";
 import AdminPanel from "../Components/AdminPanel.jsx";
 import ProductList from "../Components/ProductList.jsx";
 import AdminPrivateRoute from "../Components/AdminPrivateRoute.jsx";
+import UserList from "../Components/UserList.jsx";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -20,26 +22,28 @@ const router = createBrowserRouter([
         element: <Login />,
       },
       {
-        path: "/signup",
+        path: "signup", // Removed leading slash
         element: <SignUp />,
       },
       {
-        path: "/admin",
+        path: "admin", // Removed leading slash
         element: (
-          <AdminPrivateRoute>
-            {" "}
-            <AdminPanel />
-          </AdminPrivateRoute>
+          // <AdminPrivateRoute>
+          <AdminPanel />
+          // </AdminPrivateRoute>
         ),
         children: [
           {
-            path: "/admin/all-products",
+            path: "all-products", // Removed leading slash
             element: (
-              <AdminPrivateRoute>
-                {" "}
-                <ProductList />{" "}
-              </AdminPrivateRoute>
+              // <AdminPrivateRoute>
+              <ProductList />
+              //  </AdminPrivateRoute>
             ),
+          },
+          {
+            path: "all-users",
+            element: <UserList />,
           },
         ],
       },

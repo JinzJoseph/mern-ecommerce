@@ -60,9 +60,9 @@ const Header = () => {
             {menuOpen && (
               <div className="absolute bg-white bottom-0 top-11 h-fit p-2 shadow-lg rounded">
                 <nav>
-                  {currentUser.isAdmin && (
+                  {currentUser?.isAdmin ===true && (
                     <Link
-                      to={"/admin/all-products"}
+                      to={"/admin"}
                       className="whitespace-nowrap hidden md:block hover:bg-slate-100 p-2 text-2xl"
                       onClick={() => SetMenuOpen(!menuOpen)}
                     >
