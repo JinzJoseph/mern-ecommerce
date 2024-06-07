@@ -1,6 +1,6 @@
 import express from "express";
 import connectDB from "./config/db.js"; // Assuming db.js is located in the config folder
-// import authRoute from "./routes/authRoute.js"
+import authRoute from "./routes/authRoute.js"
 // import userRoute from "./routes/userRoute.js";
 // import postRoute from "./routes/postRoute.js";
 // import commentRoute from "./routes/commentRoute.js"
@@ -15,11 +15,13 @@ app.listen(3000, () => {
 });
 app.use(cors());
 app.use(cookieParser());
-app.use(bodyParser.json());
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ limit: '10mb', extended: true }));
+
 dotenv.config();
 connectDB();
 
 // app.use("/api/user",userRoute)
-// app.use("/api/auth",authRoute)
+app.use("/api/auth",authRoute)
 // app.use("/api/post",postRoute)
 // app.use("/api/comment",commentRoute)

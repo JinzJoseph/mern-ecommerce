@@ -3,12 +3,41 @@ import { Link } from "react-router-dom";
 import { GrSearch } from "react-icons/gr";
 import { IoCart } from "react-icons/io5";
 import { FaRegCircleUser } from "react-icons/fa6";
+import { useSelector, useDispatch } from "react-redux";
+import { signoutSuccess } from "../redux/User/UserSlice";
+import axios from "axios"; // Add this import
+
 const Header = () => {
+  const { currentUser } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  const handleLogout = async () => {
+    try {
+      const res = await axios.post(
+        "/api/auth/signout",
+        {},
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (res.status === 200) {
+        dispatch(signoutSuccess());
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   return (
     <header className="h-20 shadow-md bg-white fixed w-full z-50">
       <div className="h-full container mx-auto flex items-center px-4 justify-between">
         <div>
-          <Link className="text-4xl font-bold">E-shop</Link>
+          <Link to="/" className="text-4xl font-bold">
+            E-shop
+          </Link>
         </div>
         <div className="lg:flex items-center flex justify-between mx-sm-sm border rounded-full focus-within:shadow pl-2">
           <input type="text" placeholder="Search product....." className="" />
@@ -16,9 +45,12 @@ const Header = () => {
             <GrSearch />
           </div>
         </div>
-        <div className=" items-center flex gap-10 ">
+        <div className="items-center flex gap-10">
           <div className="text-4xl cursor-pointer gap-3">
-            <FaRegCircleUser />
+          
+            {
+              currentUser ? <img src={currentUser.profilePic} alt ="profilepic" className=" w-10 h-10 rounded-full overflow-hidden items-center"/> :( <FaRegCircleUser /> )
+            }
           </div>
           <div className="text-4xl cursor-pointer relative">
             <IoCart />
@@ -28,9 +60,23 @@ const Header = () => {
           </div>
         </div>
         <div>
-          <Link to={'/login'} className=" px-3 py-1 rounded-full text-white bg-black hover:bg-slate-600 ">
-            Login
-          </Link>
+          {currentUser ? (
+            <>
+              <Link
+                onClick={handleLogout}
+                className="px-3 py-1 rounded-full items-center text-white bg-black hover:bg-slate-600"
+              >
+                Logout
+              </Link>
+            </>
+          ) : (
+            <Link
+              to="/login"
+              className="px-3 py-1 rounded-full items-center text-white bg-black hover:bg-slate-600"
+            >
+              Login
+            </Link>
+          )}
         </div>
       </div>
     </header>
