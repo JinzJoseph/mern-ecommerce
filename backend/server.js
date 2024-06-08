@@ -2,7 +2,7 @@ import express from "express";
 import connectDB from "./config/db.js"; // Assuming db.js is located in the config folder
 import authRoute from "./routes/authRoute.js"
 import userRoute from "./routes/userRoute.js";
-// import postRoute from "./routes/postRoute.js";
+import productRoute from "./routes/productRoute.js";
 // import commentRoute from "./routes/commentRoute.js"
 import bodyParser from "body-parser";
 import cors from "cors";
@@ -23,5 +23,5 @@ connectDB();
 
 app.use("/api/user",userRoute)
 app.use("/api/auth",authRoute)
-// app.use("/api/post",postRoute)
+app.use("/api/product",productRoute)
 // app.use("/api/comment",commentRoute)

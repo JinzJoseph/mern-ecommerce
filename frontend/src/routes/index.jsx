@@ -4,7 +4,7 @@ import Home from "../Pages/Home.jsx"; // Ensure this import path is correct
 import Login from "../Pages/Login.jsx";
 import SignUp from "../Pages/SignUp.jsx";
 import AdminPanel from "../Components/AdminPanel.jsx";
-import ProductList from "../Components/ProductList.jsx";
+import ProductList from "../Pages/ProductList.jsx";
 import AdminPrivateRoute from "../Components/AdminPrivateRoute.jsx";
 import UserList from "../Components/UserList.jsx";
 
