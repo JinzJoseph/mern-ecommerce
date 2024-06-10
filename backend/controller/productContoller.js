@@ -76,7 +76,7 @@ export const updateProduct = async (req, res) => {
         success: false,
       });
     }
-    
+
     const updatedProduct = await Product.findByIdAndUpdate(
       { _id: req.params.productId }, // Corrected: req.params.productId
       {
@@ -106,7 +106,7 @@ export const updateProduct = async (req, res) => {
     });
   }
 };
-export const deleteProduct=async(req,res)=>{
+export const deleteProduct = async (req, res) => {
   try {
     if (req.user.isAdmin === false) {
       return res.status(403).json({
@@ -114,11 +114,13 @@ export const deleteProduct=async(req,res)=>{
         success: false,
       });
     }
-    const deleteproduct=await Product.findByIdAndDelete({_id: req.params.productId})
+    const deleteproduct = await Product.findByIdAndDelete({
+      _id: req.params.productId,
+    });
     res.status(200).json({
-      message:"successfully deleted",
-      success:true
-    })
+      message: "successfully deleted",
+      success: true,
+    });
   } catch (error) {
     console.error(error);
     res.status(400).json({
@@ -126,6 +128,38 @@ export const deleteProduct=async(req,res)=>{
       error: true,
       success: false,
     });
-  
   }
-}
+};
+export const categoryproduct = async (req, res) => {
+  try {
+    // Get the distinct categories from the Product collection
+    const distinctCategories = await Product.distinct("category");
+    console.log(distinctCategories);
+
+    // Array to store one product from each category
+    const categoryProducts = [];
+
+    // Loop over each category and fetch one product for each category
+    for (const category of distinctCategories) {
+      const product = await Product.findOne({ category });
+      if (product) {
+        categoryProducts.push(product);
+      }
+    }
+
+    // Send the response with the fetched data
+    res.status(200).json({
+      message: "Successfully fetched data",
+      success: true,
+      data: categoryProducts,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(400).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+};
+
