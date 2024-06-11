@@ -165,7 +165,7 @@ export const categoryproduct = async (req, res) => {
 
 export const getCategoryWiseProducts = async (req, res) => {
   const { category } = req.params;
-console.log(category);
+
   try {
     const data = await Product.find({ category });
     // console.log(data);
