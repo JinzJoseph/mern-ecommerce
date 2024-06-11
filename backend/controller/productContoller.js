@@ -134,7 +134,7 @@ export const categoryproduct = async (req, res) => {
   try {
     // Get the distinct categories from the Product collection
     const distinctCategories = await Product.distinct("category");
-    console.log(distinctCategories);
+    //console.log(distinctCategories);
 
     // Array to store one product from each category
     const categoryProducts = [];
@@ -163,3 +163,23 @@ export const categoryproduct = async (req, res) => {
   }
 };
 
+export const getCategoryWiseProducts = async (req, res) => {
+  const { category } = req.params;
+console.log(category);
+  try {
+    const data = await Product.find({ category });
+    // console.log(data);
+    res.status(200).json({
+      message: "Successfully fetched data",
+      success: true,
+      data: data,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(400).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+};

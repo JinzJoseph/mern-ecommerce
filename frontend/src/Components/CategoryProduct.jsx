@@ -11,7 +11,7 @@ const CategoryProduct = () => {
       setLoading(true);
       const { data } = await axios.get("/api/product/getcategoryproduct");
       setLoading(false);
-      console.log(data.data);
+      //console.log(data.data);
       setCategory(data.data);
     } catch (error) {
       setLoading(false); // Should be set to false on error as well
