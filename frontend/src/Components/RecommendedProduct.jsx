@@ -4,7 +4,7 @@ import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import displayINRCurrency from "../Helper/displayPrice";
 
-const VerticalCardProduct = ({ category, heading }) => {
+const RecommendedProduct = ({ category, heading }) => {
   const [data, SetData] = useState([]);
   const [loading, SetLoading] = useState(false);
   const scrollElement = useRef(null);
@@ -59,8 +59,8 @@ const VerticalCardProduct = ({ category, heading }) => {
         >
           {!loading &&
             data.map((product, index) => (
-              <Link
-              to={`/productDetail/${product?._id}`}
+              <Link relative="path"
+            to={`/productDetail/${product?._id}`}
                 className="w-full min-w-[280px] md:min-w-[320px] bg-white rounded-sm shadow"
                 key={index}
               >
@@ -96,4 +96,4 @@ const VerticalCardProduct = ({ category, heading }) => {
   );
 };
 
-export default VerticalCardProduct;
+export default RecommendedProduct;

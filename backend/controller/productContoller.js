@@ -183,3 +183,27 @@ export const getCategoryWiseProducts = async (req, res) => {
     });
   }
 };
+export const getSingleProduct = async (req, res) => {
+  try {
+    const { productId } = req.params;
+    const result = await Product.findOne({ _id: productId });
+    if (!result) {
+      res.status(403).json({
+        message: "failed to get product data",
+        success: false,
+      });
+    }
+    res.status(200).json({
+      message: "successfully fetched data",
+      success: true,
+      data: result,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(400).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+};

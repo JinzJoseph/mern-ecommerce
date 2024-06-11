@@ -7,6 +7,7 @@ import AdminPanel from "../Components/AdminPanel.jsx";
 import ProductList from "../Pages/ProductList.jsx";
 import AdminPrivateRoute from "../Components/AdminPrivateRoute.jsx";
 import UserList from "../Components/UserList.jsx";
+import ProductDetails from "../Pages/ProductDeatils.jsx";
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
       {
         path: "signup", // Removed leading slash
         element: <SignUp />,
+      },
+      {
+        path: "productDetail/:productId",
+        element: <ProductDetails />,
       },
       {
         path: "admin", // Removed leading slash

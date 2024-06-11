@@ -36,7 +36,7 @@ const HorizProductList = ({ category, heading }) => {
     <div className="container mx-auto px-4 my-4">
       <h2 className="text-2xl font-semibold py-4">{heading}</h2>
       <div
-        className="flex items-center gap-4 md:gap-6 overflow-x-auto translate-all relative"
+        className="flex items-center gap-4 md:gap-6  overflow-x-auto translate-all relative scrollbar-none "
         ref={scrollElement}
       >
         <button
@@ -54,7 +54,7 @@ const HorizProductList = ({ category, heading }) => {
         {!loading &&
           data.map((product, index) => (
             <Link
-              to={`/product/${product._id}`}
+            to={`/productDetail/${product?._id}`}
               className="w-full min-w-[280px] md:min-w-[320px] md:max-w-[320px] h-36 bg-white rounded-sm shadow flex"
               key={index}
             >
@@ -78,7 +78,7 @@ const HorizProductList = ({ category, heading }) => {
                     {displayINRCurrency(product?.price)}
                   </p>
                 </div>
-                <button className='text-sm bg-black m-auto hover:bg-red-700 text-white px-3 py-0.5 rounded-full' >Add to Cart</button>
+                <button className='text-sm bg-black m-auto hover:bg-red-700 text-white px-3 py-0.5 rounded-full' onClick={(e)=>addToCart(e,product?.id)}>Add to Cart</button>
               </div>
             </Link>
           ))}
