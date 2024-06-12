@@ -195,12 +195,15 @@ const totalPrice=data.reduce((prev,curr)=>prev+(curr?.productId?.Qty*curr?.produ
               Continue Shopping
             </Link>
           </div>
-          <div id="summary" className="w-full sm:w-1/4 md:w-1/2 px-8 py-10">
-            <h1 className="font-semibold text-2xl border-b pb-8">
+          <div id="summary" className="w-full sm:w-1/4 md:w-1/2 px-8 py-10 ">
+          <p className="bg-blue-600 text-white rounded px-12 py-3">
+           
+          </p>
+            <h1 className="font-semibold text-2xl border-b pb-8 mt-3">
               Order Summary
             </h1>
             <div className="flex justify-between mt-10 mb-5">
-              <span className="font-bold  items-center uppercase text-2xl">
+              <span className="font-bold  items-center capitalize text-2xl">
               {data.length} Items
               </span>
               <span className="font-bold text-2xl">
@@ -219,7 +222,7 @@ const totalPrice=data.reduce((prev,curr)=>prev+(curr?.productId?.Qty*curr?.produ
                   </p>
             </div>
             <div>
-              <label className="font-medium inline-block mb-3 text-sm uppercase">
+              <label className="font-semibold inline-block mb-3 text-xl ">
                 Shipping Charge:
               </label>
               <select className="block p-2 text-gray-600 w-full text-sm">

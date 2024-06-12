@@ -108,7 +108,7 @@ const ProductDetails = () => {
                     <img
                       src={image}
                       alt={`Product ${index}`}
-                      className="object-scale-down mix-blend-multiply"
+                      className="object-scale-down mix-blend-multiply h-full w-full"
                       onClick={() => handleMouseEnter(image)}
                     />
                   </div>

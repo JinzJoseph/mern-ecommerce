@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { GrSearch } from "react-icons/gr";
 import { IoCart } from "react-icons/io5";
 import { FaRegCircleUser } from "react-icons/fa6";
@@ -9,8 +9,10 @@ import axios from "axios"; // Add this import
 import Context from "../context";
 
 const Header = () => {
+  const navigate=useNavigate()
   const { currentUser } = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const[searchterm,SetSearchTerm]=useState("")
   const [menuOpen, SetMenuOpen] = useState(false);
   const handleLogout = async () => {
     try {
@@ -34,7 +36,14 @@ const Header = () => {
 
   const context = useContext(Context);
 
-
+const handleSearch=(e)=>{
+  const {value}=e.target
+  SetSearchTerm(value)
+if(value){
+  navigate(`/search?query=${value}`)
+}else{
+  navigate("/search")
+}}
   return (
     <header className="h-20 shadow-md bg-white fixed w-full z-50">
       <div className="h-full container mx-auto flex items-center px-4 justify-between">
@@ -44,7 +53,7 @@ const Header = () => {
           </Link>
         </div>
         <div className="lg:flex items-center flex justify-between mx-sm-sm border rounded-full focus-within:shadow pl-2">
-          <input type="text" placeholder="Search product....." className="" />
+          <input type="text" placeholder="Search product....." className="outline-none"  onChange={handleSearch} value={searchterm}/>
           <div className="text-lg min-w-[50px] h-8 bg-black flex items-center justify-center rounded-r-full text-white">
             <GrSearch />
           </div>

@@ -9,6 +9,8 @@ import AdminPrivateRoute from "../Components/AdminPrivateRoute.jsx";
 import UserList from "../Components/UserList.jsx";
 import ProductDetails from "../Pages/ProductDeatils.jsx";
 import Cart from "../Pages/Cart.jsx";
+import Search from "../Components/Search.jsx";
+import FilterPage from "../Pages/FilterPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -34,6 +36,14 @@ const router = createBrowserRouter([
       {
         path: "cart",
         element: <Cart />,
+      },
+      {
+        path:"search",
+        element:<Search/>
+      },
+      {
+        path:"product-category",
+        element:<FilterPage/>
       },
       {
         path: "admin", // Removed leading slash

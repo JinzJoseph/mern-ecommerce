@@ -207,3 +207,33 @@ export const getSingleProduct = async (req, res) => {
     });
   }
 };
+export const searchProducts = async (req, res) => {
+  try {
+    const { searchQuery } = req.params;
+  
+    const products = await Product.find({
+      $or: [
+        { productName: { $regex: searchQuery, $options: "i" } },
+        { category: { $regex: searchQuery, $options: "i" } },
+      ],
+    });
+    
+    if (!products) {
+      return res.status(402).json({
+        message: "products doesnot exists",
+        success: false,
+      });
+    }
+    res.status(200).json({
+      message: "successfully fetched Data",
+      success: true,
+      data:products
+    });
+  } catch (error) {
+    return res.status(400).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+};
