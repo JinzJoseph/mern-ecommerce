@@ -6,19 +6,21 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { useEffect, useState, createContext } from "react";
 import Context from "./context";
+import { useSelector } from "react-redux";
 
 // Define the context
 export const CartContext = createContext();
 
 function App() {
   const [length, setLength] = useState("");
-
+const{currentUser}=useSelector((state)=>state.user)
   const cartLength = async () => {
     try {
       const {data} = await axios.get(`/api/cart/getcountaddtocart`);
       console.log(data);
       if (data.success) {
         setLength(data.data);
+      
       }
     } catch (error) {
       console.log(error);
@@ -27,7 +29,7 @@ function App() {
 
   useEffect(() => {
     cartLength();
-  }, []);
+  }, [currentUser]);
 
   return (
     <>

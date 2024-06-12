@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 
 export const verifyToken = (req, res, next) => {
   const token = req.cookies.access_token;
+  // console.log(token);
   if (!token) {
    return res.status(401).json({
       message: "Unauthorized",
@@ -14,6 +15,8 @@ export const verifyToken = (req, res, next) => {
       });
     }
     // console.log(user)
+  
+    
   req.user=user
 
     next();

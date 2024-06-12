@@ -17,7 +17,7 @@ export const addToCart = async (req, res) => {
       });
     }
     const uploadCart = new Cart({
-      userId: req.user._id,
+      userId: req.user.id,
       productId: productId,
       Qty: 1,
     });
@@ -35,25 +35,75 @@ export const addToCart = async (req, res) => {
     });
   }
 };
-export const countaddToCart = async (req, res) => {
+export const countAddToCart = async (req, res) => {
   try {
     if (!req.user) {
       return res.status(403).json({
-        message: "please Login",
+        message: "Please login",
         success: false,
       });
     }
-    const result = await Cart.countDocuments({
-      userId:req.user._id
+
+    const userId = req.user.id;
+    console.log(`User ID: ${userId}`);
+
+    const result = await Cart.countDocuments({ userId });
+    console.log(result);
+    return res.status(200).json({
+      message: "Successfully fetched data",
+      success: true,
+      data: result,
     });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      message: error.message || "An error occurred",
+      success: false,
+    });
+  }
+};
+export const cartView = async (req, res) => {
+  try {
+    // console.log(req.user);
+    if (req.user === false) {
+      return res.status(403).json({
+        message: "please login t0 view cart",
+        success: false,
+      });
+    }
+    const result = await Cart.find({ userId: req?.user?.id }).populate(
+      "productId"
+    );
+    if (!result) {
+      return res.status(402).json({
+        message: "No product in cart",
+        success: false,
+      });
+    }
     res.status(200).json({
-      message: "successfully fetched Data",
+      message: "suucess fetched data",
       success: true,
       data: result,
     });
   } catch (error) {
     console.log(error);
-    res.json({
+    return res.json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+};
+export const deleteProduct = async (req, res) => {
+  try {
+    const { productId } = req.params;
+    const result = await Cart.deleteOne({_id:productId });
+    res.status(200).json({
+      message: "successfully deleted",
+      suucess: true,
+    });
+  } catch (error) {
+    return res.status(500).json({
       message: error.message || error,
       error: true,
       success: false,

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { GrSearch } from "react-icons/gr";
 import { IoCart } from "react-icons/io5";
@@ -31,8 +31,10 @@ const Header = () => {
       console.log(error.message);
     }
   };
-  const context=useContext(Context)
-console.log(context?.length);
+
+  const context = useContext(Context);
+
+
   return (
     <header className="h-20 shadow-md bg-white fixed w-full z-50">
       <div className="h-full container mx-auto flex items-center px-4 justify-between">
@@ -62,7 +64,7 @@ console.log(context?.length);
             {menuOpen && (
               <div className="absolute bg-white bottom-0 top-11 h-fit p-2 shadow-lg rounded">
                 <nav>
-                  {currentUser?.isAdmin ===true && (
+                  {currentUser?.isAdmin === true && (
                     <Link
                       to={"/admin"}
                       className="whitespace-nowrap hidden md:block hover:bg-slate-100 p-2 text-2xl"
@@ -75,16 +77,14 @@ console.log(context?.length);
               </div>
             )}
           </div>
-         {
-          currentUser._id &&(
-            <div className="text-4xl cursor-pointer relative">
-            <IoCart />
-            <div className="bg-black text-white w-5 h-5 rounded-full p-1 flex items-center justify-center absolute -top-2 -right-3">
-              <p className="text-sm text-white">{context?.length}</p>
-            </div>
-          </div>
-          )
-         }
+          {currentUser?._id && (
+            <Link to={"/cart"} className="text-4xl cursor-pointer relative">
+              <IoCart />
+              <div className="bg-black text-white w-5 h-5 rounded-full p-1 flex items-center justify-center absolute -top-2 -right-3">
+                <p className="text-sm text-white">{context?.length}</p>
+              </div>
+            </Link>
+          )}
         </div>
         <div>
           {currentUser ? (
