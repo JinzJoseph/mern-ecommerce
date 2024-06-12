@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { GrSearch } from "react-icons/gr";
 import { IoCart } from "react-icons/io5";
@@ -6,6 +6,7 @@ import { FaRegCircleUser } from "react-icons/fa6";
 import { useSelector, useDispatch } from "react-redux";
 import { signoutSuccess } from "../redux/User/UserSlice";
 import axios from "axios"; // Add this import
+import Context from "../context";
 
 const Header = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -30,7 +31,8 @@ const Header = () => {
       console.log(error.message);
     }
   };
-
+  const context=useContext(Context)
+console.log(context?.length);
   return (
     <header className="h-20 shadow-md bg-white fixed w-full z-50">
       <div className="h-full container mx-auto flex items-center px-4 justify-between">
@@ -73,12 +75,16 @@ const Header = () => {
               </div>
             )}
           </div>
-          <div className="text-4xl cursor-pointer relative">
+         {
+          currentUser._id &&(
+            <div className="text-4xl cursor-pointer relative">
             <IoCart />
             <div className="bg-black text-white w-5 h-5 rounded-full p-1 flex items-center justify-center absolute -top-2 -right-3">
-              <p className="text-sm">0</p>
+              <p className="text-sm text-white">{context?.length}</p>
             </div>
           </div>
+          )
+         }
         </div>
         <div>
           {currentUser ? (

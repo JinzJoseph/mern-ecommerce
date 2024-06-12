@@ -1,8 +1,10 @@
 import axios from "axios";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import displayINRCurrency from "../Helper/displayPrice";
+import { addToCart } from "../Helper/addToCart";
+import Context from "../context";
 
 const VerticalCardProduct = ({ category, heading }) => {
   const [data, SetData] = useState([]);
@@ -24,7 +26,11 @@ const VerticalCardProduct = ({ category, heading }) => {
       SetLoading(false);
     }
   };
-
+  const { cartLength } = useContext(Context);
+  const handleAddToCart = async (e,id) => {
+    await addToCart(e, id);
+    cartLength();
+  };
   useEffect(() => {
     fetchData();
   }, [category]);
@@ -84,7 +90,7 @@ const VerticalCardProduct = ({ category, heading }) => {
                       {displayINRCurrency(product?.price)}
                     </p>
                   </div>
-                  <button className="text-sm bg-black m-auto hover:bg-red-700 text-white px-3 py-0.5 rounded-full">
+                  <button className="text-sm bg-black m-auto hover:bg-red-700 text-white px-3 py-0.5 rounded-full"   onClick={(e)=>handleAddToCart(e,product?._id)}>
                     Add to Cart
                   </button>
                 </div>

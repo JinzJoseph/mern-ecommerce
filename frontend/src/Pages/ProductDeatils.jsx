@@ -1,10 +1,12 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { FaStar, FaStarHalf } from "react-icons/fa6";
 import displayINRCurrency from "../Helper/displayPrice";
 import VerticalCardProduct from "../Components/VerticalCardProduct"
 import RecommendedProduct from "../Components/RecommendedProduct";
+import { addToCart } from "../Helper/addToCart";
+import Context from "../context";
 const ProductDetails = () => {
   const { productId } = useParams();
   const [data, setData] = useState({});
@@ -20,7 +22,7 @@ const ProductDetails = () => {
     try {
       setLoading(true);
       const response = await axios.get(`/api/product/getproduct/${productId}`);
-      console.log(response.data);
+      // console.log(response.data);
       setData(response.data.data);
       setActive(response.data.data.productImage[0]);
       setLoading(false);
@@ -29,7 +31,7 @@ const ProductDetails = () => {
       setLoading(false);
     }
   };
-
+// console.log(data);
   useEffect(() => {
     fetchProductData();
   }, [productId]);
@@ -52,7 +54,11 @@ const ProductDetails = () => {
   const handleMouseEnter = (img) => {
     setActive(img);
   };
-
+  const { cartLength } = useContext(Context);
+  const handleAddToCart = async (e,id) => {
+    await addToCart(e, id);
+    cartLength();
+  };
   return (
     <div className="container mx-auto p-8">
       <div className="min-h-[200px] flex flex-col lg:flex-row gap-3">
@@ -138,7 +144,7 @@ const ProductDetails = () => {
             <button className="border-2 bg-black text-white rounded px-3 py-1 min-w-[120px] font-medium ">
               Buy
             </button>
-            <button className="border-2 bg-black text-white rounded px-3 py-1 min-w-[120px] font-medium">
+            <button className="border-2 bg-black text-white rounded px-3 py-1 min-w-[120px] font-medium"  onClick={(e)=>handleAddToCart(e,product?._id)}>
               Add to cart
             </button>
           </div>

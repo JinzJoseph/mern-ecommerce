@@ -3,6 +3,7 @@ import connectDB from "./config/db.js"; // Assuming db.js is located in the conf
 import authRoute from "./routes/authRoute.js"
 import userRoute from "./routes/userRoute.js";
 import productRoute from "./routes/productRoute.js";
+import addTocartRoute from "./routes/addTocartRoute.js"
 // import commentRoute from "./routes/commentRoute.js"
 import bodyParser from "body-parser";
 import cors from "cors";
@@ -24,4 +25,5 @@ connectDB();
 app.use("/api/user",userRoute)
 app.use("/api/auth",authRoute)
 app.use("/api/product",productRoute)
+app.use("/api/cart",addTocartRoute)
 // app.use("/api/comment",commentRoute)
