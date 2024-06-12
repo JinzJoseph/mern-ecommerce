@@ -46,7 +46,62 @@ const Cart = () => {
       console.error(error);
     }
   };
-
+  const decraseQty = async (id, Qty) => {
+    try {
+      console.log(id, Qty);
+      if (Qty >= 2) {
+        const { data } = await axios.put(
+          "/api/cart/updatecartproduct",
+          {
+            _id: id,
+            Qty: Qty - 1,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        console.log(data);
+        if (data.success) {
+          fetchData();
+        } else {
+          console.error("Failed to update quantity", data.message);
+        }
+      }
+    } catch (error) {
+      console.error("Error updating quantity", error);
+    }
+  };
+const increaseQty=async(id,Qty)=>{
+  try {
+    console.log(id, Qty);
+   
+      const { data } = await axios.put(
+        "/api/cart/updatecartproduct",
+        {
+          _id: id,
+          Qty: Qty + 1,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log(data);
+      if (data.success) {
+        fetchData();
+      } else {
+        console.error("Failed to update quantity", data.message);
+      }
+    
+  } catch (error) {
+    console.error("Error updating quantity", error);
+  } 
+}
+const TotalQty=data.reduce((prev,curr)=>prev+curr.Qty,0)
+const totalPrice=data.reduce((prev,curr)=>prev+(curr?.productId?.Qty*curr?.productId?.sellingPrice),0)
   return (
     <div>
       <div className="container mx-auto mt-10">
@@ -91,18 +146,18 @@ const Cart = () => {
                   <div className="flex items-center justify-end w-full">
                     <button
                       className="gap-3 border border-gray-200 mx-1 text-red-600 hover:bg-red-600 hover:text-white w-6 h-6 flex justify-center items-center rounded"
-                      // onClick={() =>
-                      //   decraseQty(product?._id, product?.quantity)
-                      // }
+                      onClick={(e) =>
+                        decraseQty(item.productId?._id, item?.Qty)
+                      }
                     >
                       -
                     </button>
                     <span className="mx-3 gap-3 font-semibold">{item.Qty}</span>
                     <button
                       className="border gap-3 border-gray-200 focus:outline-non text-red-600 hover:bg-red-600 hover:text-white w-6 h-6 flex justify-center items-center rounded"
-                      // onClick={() =>
-                      //   increaseQty(product?._id, product?.quantity)
-                      // }
+                      onClick={() =>
+                        increaseQty(item.productId?._id, item?.Qty)
+                      }
                     >
                       +
                     </button>
@@ -145,11 +200,11 @@ const Cart = () => {
               Order Summary
             </h1>
             <div className="flex justify-between mt-10 mb-5">
-              <span className="font-semibold text-sm uppercase">
-                Items {data.length}
+              <span className="font-bold  items-center uppercase text-2xl">
+              {data.length} Items
               </span>
-              <span className="font-semibold text-sm">
-                {displayINRCurrency(
+              <span className="font-bold text-2xl">
+              Total Price: {displayINRCurrency(
                   data.reduce(
                     (total, item) =>
                       total + item.productId.sellingPrice * item.Qty,
@@ -159,33 +214,23 @@ const Cart = () => {
               </span>
             </div>
             <div>
+            <p className="text-base font-black leading-none text-gray-800 my-4">
+                    TotalQuantity:{TotalQty}
+                  </p>
+            </div>
+            <div>
               <label className="font-medium inline-block mb-3 text-sm uppercase">
-                Shipping
+                Shipping Charge:
               </label>
               <select className="block p-2 text-gray-600 w-full text-sm">
                 <option>Standard shipping - ₹100.00</option>
               </select>
             </div>
-            <div className="py-10">
-              <label
-                htmlFor="promo"
-                className="font-semibold inline-block mb-3 text-sm uppercase"
-              >
-                Promo Code
-              </label>
-              <input
-                type="text"
-                id="promo"
-                placeholder="Enter your code"
-                className="p-2 text-sm w-full"
-              />
-            </div>
-            <button className="bg-red-500 hover:bg-red-600 px-5 py-2 text-sm text-white uppercase">
-              Apply
-            </button>
+            
+           
             <div className="border-t mt-8">
-              <div className="flex font-semibold justify-between py-6 text-sm uppercase">
-                <span>Total cost</span>
+              <div className="flex  justify-between py-6  capitalize text-2xl font-bold">
+                <span>Total Price+shipping charge:</span>
                 <span>
                   {displayINRCurrency(
                     data.reduce(

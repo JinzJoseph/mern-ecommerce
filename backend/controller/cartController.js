@@ -97,7 +97,7 @@ export const cartView = async (req, res) => {
 export const deleteProduct = async (req, res) => {
   try {
     const { productId } = req.params;
-    const result = await Cart.deleteOne({_id:productId });
+    const result = await Cart.deleteOne({ _id: productId });
     res.status(200).json({
       message: "successfully deleted",
       suucess: true,
@@ -110,3 +110,53 @@ export const deleteProduct = async (req, res) => {
     });
   }
 };
+export const updateCart = async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    if (!userId) {
+      return res.status(403).json({
+        message: "Please login...",
+        success: false,
+      });
+    }
+
+    const productId = req.body._id;
+    const Qty = req.body.Qty;
+
+    if (!productId || !Qty) {
+      return res.status(400).json({
+        message: "Product ID and Quantity are required",
+        success: false,
+      });
+    }
+
+    const result = await Cart.findOneAndUpdate(
+      { productId: productId, userId: userId }, // Ensuring the userId matches as well
+      { $set: { Qty: Qty } },
+      { new: true } // This will return the updated document
+    );
+
+    if (!result) {
+      return res.status(404).json({
+        message: "Product not found",
+        success: false,
+      });
+    }
+
+    res.status(200).json({
+      message: "Successfully updated quantity",
+      success: true,
+      data: result,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+};
+
+
+
