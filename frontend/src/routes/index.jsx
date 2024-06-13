@@ -13,6 +13,7 @@ import Search from "../Components/Search.jsx";
 import FilterPage from "../Pages/FilterPage.jsx";
 import Success from "../Pages/Success.jsx";
 import Cancel from "../Pages/Cancel.jsx";
+import OrderPage from "../Pages/OrderPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
       {
         path:"search",
         element:<Search/>
+      },
+      {
+        path:"order",
+        element:<OrderPage/>
       },
       {
         path:"product-category",

@@ -103,7 +103,7 @@ const Cart = () => {
     try {
       const stripePromise =  loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
     const res= await axios.post(
-      "/api/order/checkout",
+      "/api/payment/checkout",
       {
         cartItems: data,
       },

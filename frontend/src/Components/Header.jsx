@@ -82,6 +82,13 @@ if(value){
                       Admin Panel
                     </Link>
                   )}
+                  <Link
+                      to={"/order"}
+                      className="whitespace-nowrap hidden md:block hover:bg-slate-100 p-2 text-2xl"
+                      onClick={() => SetMenuOpen(!menuOpen)}
+                    >
+                      Order
+                    </Link>
                 </nav>
               </div>
             )}
