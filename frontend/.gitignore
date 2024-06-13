@@ -6,14 +6,14 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
-
+.env
 node_modules
 dist
 dist-ssr
 ../
 *.local
 /src/assest
-/.env
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
