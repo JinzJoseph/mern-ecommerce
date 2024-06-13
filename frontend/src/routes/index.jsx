@@ -11,6 +11,8 @@ import ProductDetails from "../Pages/ProductDeatils.jsx";
 import Cart from "../Pages/Cart.jsx";
 import Search from "../Components/Search.jsx";
 import FilterPage from "../Pages/FilterPage.jsx";
+import Success from "../Pages/Success.jsx";
+import Cancel from "../Pages/Cancel.jsx";
 
 const router = createBrowserRouter([
   {
@@ -44,6 +46,12 @@ const router = createBrowserRouter([
       {
         path:"product-category",
         element:<FilterPage/>
+      },{
+        path:"success",
+        element:<Success/>
+      },{
+        path:"cancel",
+        element:<Cancel/>
       },
       {
         path: "admin", // Removed leading slash

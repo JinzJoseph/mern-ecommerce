@@ -45,10 +45,10 @@ export const countAddToCart = async (req, res) => {
     }
 
     const userId = req.user.id;
-    console.log(`User ID: ${userId}`);
+   
 
     const result = await Cart.countDocuments({ userId });
-    console.log(result);
+    
     return res.status(200).json({
       message: "Successfully fetched data",
       success: true,

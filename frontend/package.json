@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.5",
+    "@stripe/stripe-js": "^3.5.0",
     "@tailwindcss/forms": "^0.5.7",
     "axios": "^1.7.2",
     "cloudinary": "^2.2.0",

@@ -5,7 +5,7 @@ import displayINRCurrency from "../Helper/displayPrice";
 import { MdDeleteForever } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-
+import {loadStripe} from '@stripe/stripe-js';
 const Cart = () => {
   const [data, SetData] = useState([]);
   const context = useContext(Context);
@@ -73,10 +73,10 @@ const Cart = () => {
       console.error("Error updating quantity", error);
     }
   };
-const increaseQty=async(id,Qty)=>{
-  try {
-    console.log(id, Qty);
-   
+  const increaseQty = async (id, Qty) => {
+    try {
+      console.log(id, Qty);
+
       const { data } = await axios.put(
         "/api/cart/updatecartproduct",
         {
@@ -95,13 +95,38 @@ const increaseQty=async(id,Qty)=>{
       } else {
         console.error("Failed to update quantity", data.message);
       }
-    
-  } catch (error) {
-    console.error("Error updating quantity", error);
-  } 
-}
-const TotalQty=data.reduce((prev,curr)=>prev+curr.Qty,0)
-const totalPrice=data.reduce((prev,curr)=>prev+(curr?.productId?.Qty*curr?.productId?.sellingPrice),0)
+    } catch (error) {
+      console.error("Error updating quantity", error);
+    }
+  };
+  const handlepayment = async () => {
+    try {
+      const stripePromise =  loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
+    const res= await axios.post(
+      "/api/order/checkout",
+      {
+        cartItems: data,
+      },
+      {
+        headers: {
+          "content-type": "application/json",
+        },
+      }
+    );
+    if(res.status===200){
+      const stripe = await stripePromise;
+      stripe.redirectToCheckout({sessionId:res.data.id})
+    }
+   
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const TotalQty = data.reduce((prev, curr) => prev + curr.Qty, 0);
+  const totalPrice = data.reduce(
+    (prev, curr) => prev + curr?.productId?.Qty * curr?.productId?.sellingPrice,
+    0
+  );
   return (
     <div>
       <div className="container mx-auto mt-10">
@@ -195,60 +220,63 @@ const totalPrice=data.reduce((prev,curr)=>prev+(curr?.productId?.Qty*curr?.produ
               Continue Shopping
             </Link>
           </div>
-          <div id="summary" className="w-full sm:w-1/4 md:w-1/2 px-8 py-10 ">
-          <p className="bg-blue-600 text-white rounded px-12 py-3">
-           
-          </p>
-            <h1 className="font-semibold text-2xl border-b pb-8 mt-3">
-              Order Summary
-            </h1>
-            <div className="flex justify-between mt-10 mb-5">
-              <span className="font-bold  items-center capitalize text-2xl">
-              {data.length} Items
-              </span>
-              <span className="font-bold text-2xl">
-              Total Price: {displayINRCurrency(
-                  data.reduce(
-                    (total, item) =>
-                      total + item.productId.sellingPrice * item.Qty,
-                    0
-                  )
-                )}
-              </span>
-            </div>
-            <div>
-            <p className="text-base font-black leading-none text-gray-800 my-4">
-                    TotalQuantity:{TotalQty}
-                  </p>
-            </div>
-            <div>
-              <label className="font-semibold inline-block mb-3 text-xl ">
-                Shipping Charge:
-              </label>
-              <select className="block p-2 text-gray-600 w-full text-sm">
-                <option>Standard shipping - ₹100.00</option>
-              </select>
-            </div>
-            
-           
-            <div className="border-t mt-8">
-              <div className="flex  justify-between py-6  capitalize text-2xl font-bold">
-                <span>Total Price+shipping charge:</span>
-                <span>
+          {data[0] && (
+            <div id="summary" className="w-full sm:w-1/4 md:w-1/2 px-8 py-10 ">
+              <p className="bg-blue-600 text-white rounded px-12 py-3"></p>
+              <h1 className="font-semibold text-2xl border-b pb-8 mt-3">
+                Order Summary
+              </h1>
+              <div className="flex justify-between mt-10 mb-5">
+                <span className="font-bold  items-center capitalize text-2xl">
+                  {data.length} Items
+                </span>
+                <span className="font-bold text-2xl">
+                  Total Price:{" "}
                   {displayINRCurrency(
                     data.reduce(
                       (total, item) =>
                         total + item.productId.sellingPrice * item.Qty,
                       0
-                    ) + 100
+                    )
                   )}
                 </span>
               </div>
-              <button className="bg-indigo-500 font-semibold hover:bg-indigo-600 py-3 text-sm text-white uppercase w-full">
-                Checkout
-              </button>
+              <div>
+                <p className="text-base font-black leading-none text-gray-800 my-4">
+                  TotalQuantity:{TotalQty}
+                </p>
+              </div>
+              <div>
+                <label className="font-semibold inline-block mb-3 text-xl ">
+                  Shipping Charge:
+                </label>
+                <select className="block p-2 text-gray-600 w-full text-sm">
+                  <option>Standard shipping - ₹100.00</option>
+                </select>
+              </div>
+
+              <div className="border-t mt-8">
+                <div className="flex  justify-between py-6  capitalize text-2xl font-bold">
+                  <span>Total Price+shipping charge:</span>
+                  <span>
+                    {displayINRCurrency(
+                      data.reduce(
+                        (total, item) =>
+                          total + item.productId.sellingPrice * item.Qty,
+                        0
+                      ) + 100
+                    )}
+                  </span>
+                </div>
+                <button
+                  onClick={handlepayment}
+                  className="bg-indigo-500 font-semibold hover:bg-indigo-600 py-3 text-sm text-white uppercase w-full"
+                >
+                  Checkout
+                </button>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </div>

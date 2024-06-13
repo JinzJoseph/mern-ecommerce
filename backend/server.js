@@ -4,7 +4,7 @@ import authRoute from "./routes/authRoute.js"
 import userRoute from "./routes/userRoute.js";
 import productRoute from "./routes/productRoute.js";
 import addTocartRoute from "./routes/addTocartRoute.js"
-// import commentRoute from "./routes/commentRoute.js"
+import PaymentRoute from "./routes/paymentRoute.js"
 import bodyParser from "body-parser";
 import cors from "cors";
 import cookieParser from "cookie-parser";
@@ -26,4 +26,4 @@ app.use("/api/user",userRoute)
 app.use("/api/auth",authRoute)
 app.use("/api/product",productRoute)
 app.use("/api/cart",addTocartRoute)
-// app.use("/api/comment",commentRoute)
+app.use("/api/order",PaymentRoute)
