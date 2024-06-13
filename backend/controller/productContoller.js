@@ -237,3 +237,28 @@ export const searchProducts = async (req, res) => {
     });
   }
 };
+export const filterProduct=async(req,res)=>{
+  try {
+ 
+    const categoryList=req.body.body || [];
+    console.log(categoryList);
+    const product=await Product.find({
+      category:{
+        "$in":categoryList
+      }
+    })
+   
+    res.status(200).json({
+      data:product,
+      message:"successfull",
+      success:true
+    })
+
+  } catch (error) {
+    return res.status(400).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+}

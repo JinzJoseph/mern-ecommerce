@@ -18,8 +18,8 @@ const SearchCard = ({ data }) => {
             )
         }
        </div>
-      <h1 className="text-2xl font-bold gap-4 mb-4">
-        No of items :{data.length}
+      <h1 className="text-2xl font-bold gap-4 mb-7">
+      Search Results : {data.length}
       </h1>
       <div className="flex flex-wrap  gap-3 ">
         {data.map((product, index) => (

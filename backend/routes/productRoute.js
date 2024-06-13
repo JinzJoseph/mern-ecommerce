@@ -1,6 +1,6 @@
 import express from "express";
 import { verifyToken } from "../middleware/verifyToken.js";
-import { uploadproduct,getProducts,updateProduct ,deleteProduct,categoryproduct,getCategoryWiseProducts,getSingleProduct,searchProducts} from "../controller/productContoller.js";
+import {filterProduct, uploadproduct,getProducts,updateProduct ,deleteProduct,categoryproduct,getCategoryWiseProducts,getSingleProduct,searchProducts} from "../controller/productContoller.js";
 
 const router = express.Router();
 router.post("/uploadproduct",verifyToken,uploadproduct)
@@ -10,5 +10,6 @@ router.delete("/deleteproduct/:productId",verifyToken,deleteProduct);
 router.get("/getcategoryproduct",categoryproduct)
 router.get("/getcategortywiseproduct/:category",getCategoryWiseProducts);
 router.get("/getproduct/:productId",getSingleProduct);
-router.get("/searchproduct/:searchQuery",searchProducts)
+router.get("/searchproduct/:searchQuery",searchProducts);
+router.post("/filterproduct",filterProduct)
 export default router;
