@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import Context from "../context";
 import { addToCart } from "../Helper/addToCart";
 import displayINRCurrency from "../Helper/displayPrice";
+import { Link } from "react-router-dom";
 
 const SearchCard = ({ data }) => {
   const { cartLength } = useContext(Context);
@@ -23,7 +24,7 @@ const SearchCard = ({ data }) => {
       </h1>
       <div className="flex flex-wrap  gap-3 ">
         {data.map((product, index) => (
-          <div
+          <Link  to={`/productDetail/${product?._id}`}
             key={index}
             className="w-1/4 min-w-[280px] md:min-w-[320px] bg-white rounded-sm shadow flex-wrap  "
           >
@@ -62,7 +63,7 @@ const SearchCard = ({ data }) => {
                 </button>
               </div>
             </article>
-          </div>
+          </Link>
         ))}
       </div>
     </div>
