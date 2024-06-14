@@ -14,6 +14,7 @@ import FilterPage from "../Pages/FilterPage.jsx";
 import Success from "../Pages/Success.jsx";
 import Cancel from "../Pages/Cancel.jsx";
 import OrderPage from "../Pages/OrderPage.jsx";
+import OrderList from "../Pages/OrderList.jsx";
 
 const router = createBrowserRouter([
   {
@@ -78,6 +79,10 @@ const router = createBrowserRouter([
             path: "all-users",
             element: <UserList />,
           },
+          {
+            path:"all-orders",
+            element:<OrderList/>
+          }
         ],
       },
     ],

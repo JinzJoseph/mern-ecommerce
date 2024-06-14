@@ -144,7 +144,7 @@ const ProductDetails = () => {
             <button className="border-2 bg-black text-white rounded px-3 py-1 min-w-[120px] font-medium ">
               Buy
             </button>
-            <button className="border-2 bg-black text-white rounded px-3 py-1 min-w-[120px] font-medium"  onClick={(e)=>handleAddToCart(e,product?._id)}>
+            <button className="border-2 bg-black text-white rounded px-3 py-1 min-w-[120px] font-medium"  onClick={(e)=>handleAddToCart(e,data?._id)}>
               Add to cart
             </button>
           </div>

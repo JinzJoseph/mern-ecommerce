@@ -3,12 +3,13 @@ import moment from "moment";
 import React, { useEffect, useState } from "react";
 import displayINRCurrency from "../Helper/displayPrice";
 
-const OrderPage = () => {
+const OrderList = () => {
   const [data, setData] = useState([]);
 
   const fetchOrderList = async () => {
     try {
-      const res = await axios.get("/api/order/orderList");
+      const res = await axios.get("/api/order/all-orders");
+      console.log(res);
       if (res.status === 200) {
         setData(res.data.data);
       } else {
@@ -62,6 +63,12 @@ const OrderPage = () => {
                         </div>
                         <p className="text-sm">Quantity: {product.quantity}</p>
                       </div>
+
+                    </div>
+                    <div className="flex justify-between text-2xl">
+                        <div>
+                            <p className="text-black font-bold">customer Email:{item.email}</p>
+                        </div>
                     </div>
                   </div>
                 );
@@ -96,4 +103,4 @@ const OrderPage = () => {
   );
 };
 
-export default OrderPage;
+export default OrderList;
